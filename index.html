@@ -6,57 +6,127 @@
   <title>Alex Baxendale — Principal Architect</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --espresso:   #1c1410;
-      --dark-warm:  #2e2018;
-      --mid:        #5a4a3a;
-      --muted:      #8a7a6a;
-      --border:     #d8cec4;
-      --border-lt:  #ede6df;
-      --cream:      #fdf8f2;
-      --parchment:  #f5ede2;
-      --accent:     #c8a882;
-      --accent-dk:  #9a7d5a;
-      --serif:      'Cormorant Garamond', Georgia, serif;
-      --sans:       'Jost', sans-serif;
+      --navy:      #060d1a;
+      --navy-mid:  #0a1628;
+      --navy-lt:   #0f2040;
+      --panel:     rgba(10, 22, 44, 0.6);
+      --panel-lt:  rgba(15, 32, 64, 0.45);
+      --cyan:      #4dd9ff;
+      --cyan-dim:  #1a8aaa;
+      --cyan-glow: rgba(77, 217, 255, 0.15);
+      --teal:      #00e5c3;
+      --border:    rgba(77, 217, 255, 0.12);
+      --border-md: rgba(77, 217, 255, 0.22);
+      --text:      #e8f4ff;
+      --muted:     rgba(180, 210, 240, 0.55);
+      --mono:      'IBM Plex Mono', monospace;
+      --sans:      'Outfit', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--cream);
-      color: var(--espresso);
+      background: var(--navy);
+      color: var(--text);
       font-family: var(--sans);
       font-size: 14px;
       line-height: 1.7;
       font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    .bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(77,217,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(77,217,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+    }
+
+    .orb1 {
+      width: 600px; height: 600px;
+      background: #0066ff;
+      top: -200px; left: -200px;
+      animation: orbFloat 18s ease-in-out infinite alternate;
+    }
+
+    .orb2 {
+      width: 500px; height: 500px;
+      background: #00c8ff;
+      bottom: -150px; right: -150px;
+      animation: orbFloat 22s ease-in-out infinite alternate-reverse;
+    }
+
+    .orb3 {
+      width: 350px; height: 350px;
+      background: #00e5c3;
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: orbFloat 15s ease-in-out infinite alternate;
+      opacity: 0.08;
+    }
+
+    @keyframes orbFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    .bg-scan {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
     }
 
     /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.1rem 3rem;
-      background: rgba(253,248,242,0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-lt);
+      padding: 1rem 3rem;
+      background: rgba(6,13,26,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
 
     .nav-logo {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      color: var(--espresso);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
     }
+
+    .nav-logo span { color: var(--muted); }
 
     .nav-links {
       display: flex;
@@ -65,346 +135,481 @@
     }
 
     .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
       text-transform: uppercase;
-      font-weight: 400;
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--espresso); }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+    }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ── GLASS CARD MIXIN ── */
+    .glass {
+      background: var(--panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+    }
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 42% 1fr;
-      padding-top: 60px;
-    }
-
-    .hero-left {
-      background: var(--espresso);
       position: relative;
+      z-index: 1;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 4rem 3.5rem;
-      overflow: hidden;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
     }
 
-    .hero-left::before {
-      content: 'AB';
-      position: absolute;
-      top: -1rem;
-      left: -0.5rem;
-      font-family: var(--serif);
-      font-size: 16rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.04);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .hero-left::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--accent);
+    .hero-inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 3rem;
+      align-items: center;
     }
 
     .hero-eyebrow {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-      animation: fadeUp 0.9s ease both;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-eyebrow::before {
+      content: '> ';
+      opacity: 0.5;
     }
 
     .hero-name {
-      font-family: var(--serif);
-      font-weight: 300;
-      font-size: clamp(3rem, 5.5vw, 5.5rem);
-      line-height: 1.0;
-      color: #fff;
-      letter-spacing: -0.01em;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.9s 0.1s ease both;
-    }
-
-    .hero-name strong {
-      font-weight: 600;
-      display: block;
-    }
-
-    .hero-rule {
-      width: 40px;
-      height: 1px;
-      background: var(--accent);
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: clamp(3.5rem, 6.5vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
-      animation: fadeUp 0.9s 0.2s ease both;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-name .first { color: var(--text); }
+    .hero-name .last  {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--cyan);
     }
 
     .hero-tagline {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.6;
-      max-width: 300px;
-      animation: fadeUp 0.9s 0.3s ease both;
-    }
-
-    .hero-location {
-      margin-top: 2.5rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      animation: fadeUp 0.9s 0.4s ease both;
-    }
-
-    .hero-right {
-      background: var(--parchment);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 5rem 4rem;
-      position: relative;
-    }
-
-    .hero-right::before {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 180px; height: 180px;
-      border-left: 1px solid var(--border);
-      border-top: 1px solid var(--border);
-      pointer-events: none;
-    }
-
-    .hero-intro-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent-dk);
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-intro-text {
-      font-family: var(--serif);
-      font-size: clamp(1.1rem, 2vw, 1.5rem);
-      line-height: 1.75;
-      color: var(--mid);
-      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
       margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s 0.2s ease both;
     }
 
-    .hero-intro-text em {
-      color: var(--espresso);
-      font-style: normal;
-      font-weight: 600;
-    }
-
-    .hero-expertise {
+    .hero-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
     }
 
-    .tag {
+    .h-tag {
+      font-family: var(--mono);
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border: 1px solid var(--border);
+      letter-spacing: 0.1em;
       padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      border-radius: 2px;
       transition: all 0.2s;
-      font-weight: 400;
     }
 
-    .tag:hover {
-      border-color: var(--accent);
-      color: var(--accent-dk);
+    .h-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: var(--cyan-glow);
     }
 
     .hero-cta {
       display: flex;
       gap: 1rem;
+      animation: fadeUp 0.8s 0.4s ease both;
     }
 
     .btn {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      font-weight: 400;
       padding: 0.8rem 1.8rem;
       text-decoration: none;
       border: 1px solid;
       transition: all 0.25s;
       display: inline-block;
+      position: relative;
+      overflow: hidden;
     }
 
-    .btn-dark {
-      background: var(--espresso);
-      color: var(--cream);
-      border-color: var(--espresso);
+    .btn-cyan {
+      background: rgba(77,217,255,0.1);
+      border-color: var(--cyan);
+      color: var(--cyan);
     }
-    .btn-dark:hover { background: var(--dark-warm); }
 
-    .btn-outline {
+    .btn-cyan:hover {
+      background: rgba(77,217,255,0.2);
+      box-shadow: 0 0 20px rgba(77,217,255,0.25);
+    }
+
+    .btn-ghost {
       background: transparent;
+      border-color: var(--border-md);
       color: var(--muted);
-      border-color: var(--border);
-    }
-    .btn-outline:hover { border-color: var(--espresso); color: var(--espresso); }
-
-    /* ── SECTION WRAPPER ── */
-    section {
-      padding: 6rem 0;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 3rem;
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
     }
 
-    .section-header {
-      display: grid;
-      grid-template-columns: 42% 1fr;
-      gap: 0;
-      margin-bottom: 4rem;
-      border-bottom: 1px solid var(--border-lt);
-      padding-bottom: 2rem;
+    /* ── HERO CARD (right side) ── */
+    .hero-card {
+      border-radius: 12px;
+      padding: 2rem;
+      animation: fadeUp 0.8s 0.2s ease both;
+      position: relative;
+      overflow: hidden;
     }
 
-    .section-num {
-      font-family: var(--serif);
-      font-size: 5rem;
-      font-weight: 300;
-      color: var(--border);
-      line-height: 1;
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
     }
 
-    .section-title-block { padding-top: 0.5rem; }
-
-    .section-label {
-      font-size: 0.65rem;
+    .card-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent-dk);
-      margin-bottom: 0.5rem;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
     }
 
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--espresso);
+    .card-current {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .section-title em {
-      font-style: italic;
-      font-weight: 300;
+    .card-current-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--teal);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
     }
 
-    /* ── ABOUT ── */
-    #about { background: var(--cream); border-top: 1px solid var(--border-lt); }
+    .card-current-val {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+    }
 
-    .about-grid {
+    .card-current-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .card-stats {
       display: grid;
-      grid-template-columns: 42% 1fr;
-      gap: 5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
     }
 
-    .about-pull {
-      font-family: var(--serif);
-      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-      line-height: 1.5;
-      font-weight: 300;
-      color: var(--espresso);
+    .stat {
+      background: rgba(6,13,26,0.7);
+      padding: 1rem;
     }
 
-    .about-pull em {
-      font-style: italic;
-      color: var(--accent-dk);
+    .stat-num {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 0.2rem;
     }
 
-    .about-body p {
-      font-size: 0.9rem;
-      color: var(--mid);
-      line-height: 1.9;
-      margin-bottom: 1.2rem;
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
-    .about-skills {
-      margin-top: 2rem;
+    .card-certs {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.5rem;
     }
 
-    /* ── EXPERIENCE ── */
-    #experience { background: var(--parchment); }
+    .cert-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
 
-    .timeline { display: flex; flex-direction: column; }
+    .cert-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem;
+    }
+
+    .s-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.6rem;
+      opacity: 0.7;
+    }
+
+    .s-label::before { content: '// '; }
+
+    .s-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 3.5rem;
+    }
+
+    .s-title em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-pull {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      line-height: 1.7;
+      color: var(--text);
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .about-pull strong {
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .domain-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .domain-item {
+      background: var(--panel);
+      padding: 1.2rem;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s;
+    }
+
+    .domain-item:hover { background: var(--panel-lt); }
+
+    .domain-icon {
+      font-family: var(--mono);
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .domain-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+
+    .domain-sub {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .about-body {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .about-body p + p { margin-top: 1rem; }
+
+    .skill-bars { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .skill-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .skill-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skill-name {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .skill-pct {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--cyan);
+    }
+
+    .skill-track {
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan-dim), var(--cyan));
+      border-radius: 2px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skill-fill.animate { transform: scaleX(1); }
+
+    /* ── EXPERIENCE ── */
+    #experience { border-top: 1px solid var(--border); }
+
+    .tl { display: flex; flex-direction: column; }
 
     .tl-item {
       display: grid;
-      grid-template-columns: 42% 1fr;
-      gap: 0;
-      border-top: 1px solid var(--border-lt);
+      grid-template-columns: 220px 1fr;
+      gap: 2.5rem;
       padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .tl-item.visible { opacity: 1; transform: translateY(0); }
 
-    .tl-left {
-      padding-right: 4rem;
-    }
+    .tl-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .tl-meta {}
 
     .tl-period {
-      font-family: var(--serif);
-      font-size: 0.8rem;
-      color: var(--accent-dk);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--cyan);
       letter-spacing: 0.05em;
       margin-bottom: 0.4rem;
     }
 
     .tl-co {
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-family: var(--mono);
+      font-size: 0.65rem;
       color: var(--muted);
+      letter-spacing: 0.04em;
       line-height: 1.6;
     }
 
-    .tl-right {}
+    .tl-content {}
 
     .tl-role {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--espresso);
-      margin-bottom: 0.6rem;
-      line-height: 1.2;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
     }
 
     .tl-desc {
-      font-size: 0.85rem;
-      color: var(--mid);
+      font-size: 0.825rem;
+      color: var(--muted);
       line-height: 1.8;
       margin-bottom: 1rem;
     }
@@ -413,86 +618,100 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
 
     .tl-bullets li {
-      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
       color: var(--muted);
       padding-left: 1.2rem;
       position: relative;
       line-height: 1.6;
+      letter-spacing: 0.01em;
     }
 
     .tl-bullets li::before {
-      content: '—';
+      content: '→';
       position: absolute;
       left: 0;
-      color: var(--accent);
-      font-family: var(--serif);
+      color: var(--cyan);
+      font-size: 0.65rem;
     }
 
     /* ── CERTIFICATIONS ── */
-    #certifications { background: var(--espresso); }
-
-    #certifications .section-num { color: rgba(255,255,255,0.06); }
-    #certifications .section-label { color: var(--accent); }
-    #certifications .section-title { color: #fff; }
-    #certifications .section-header { border-bottom-color: rgba(255,255,255,0.08); }
+    #certifications { border-top: 1px solid var(--border); }
 
     .certs-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     .cert {
-      background: var(--espresso);
-      padding: 2rem;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
       transition: background 0.2s;
     }
 
-    .cert:hover { background: var(--dark-warm); }
+    .cert:hover { background: var(--panel-lt); }
+
+    .cert::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .cert:hover::after { opacity: 1; }
 
     .cert-yr {
-      font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 300;
-      color: var(--accent);
-      line-height: 1;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--teal);
       margin-bottom: 0.6rem;
+      text-transform: uppercase;
     }
 
     .cert-name {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.65);
+      font-size: 0.82rem;
+      color: var(--text);
       line-height: 1.5;
-      font-weight: 300;
+      font-weight: 400;
     }
 
     /* ── CONTACT ── */
-    #contact { background: var(--parchment); }
+    #contact { border-top: 1px solid var(--border); }
 
-    .contact-grid {
+    .contact-layout {
       display: grid;
-      grid-template-columns: 42% 1fr;
-      gap: 5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
       align-items: start;
     }
 
     .contact-headline {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 4vw, 4.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--espresso);
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 4.5vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
     }
 
     .contact-headline em {
-      font-style: italic;
-      color: var(--accent-dk);
+      font-style: normal;
+      color: var(--cyan);
     }
 
     .contact-sub {
@@ -500,75 +719,80 @@
       font-size: 0.85rem;
       color: var(--muted);
       line-height: 1.8;
+      font-family: var(--mono);
     }
 
-    .contact-items {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    .contact-items { display: flex; flex-direction: column; }
 
-    .contact-item {
+    .ci {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border-lt);
+      padding: 1.3rem 1.5rem;
+      border: 1px solid var(--border);
+      margin-bottom: -1px;
       text-decoration: none;
       color: inherit;
-      transition: padding-left 0.25s;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
     }
 
-    .contact-item:hover { padding-left: 0.5rem; }
+    .ci:first-child { border-radius: 8px 8px 0 0; }
+    .ci:last-child  { border-radius: 0 0 8px 8px; }
 
-    .contact-item:first-child { border-top: 1px solid var(--border-lt); }
+    .ci:hover {
+      background: var(--cyan-glow);
+      border-color: var(--border-md);
+      z-index: 1;
+    }
 
-    .ci-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
+    .ci-lbl {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--accent-dk);
+      color: var(--cyan);
       display: block;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
+      opacity: 0.7;
     }
 
-    .ci-value {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--espresso);
+    .ci-val {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
     }
 
-    .ci-arrow {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      color: var(--accent);
-      transition: transform 0.2s;
+    .ci-arr {
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-size: 1rem;
+      opacity: 0.5;
+      transition: all 0.2s;
     }
 
-    .contact-item:hover .ci-arrow { transform: translateX(5px); }
+    .ci:hover .ci-arr { opacity: 1; transform: translateX(4px); }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--espresso);
-      padding: 2rem 3rem;
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 3rem;
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     footer p {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.3);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
     }
 
-    footer span {
-      font-family: var(--serif);
-      font-style: italic;
-      color: var(--accent);
-      font-size: 0.9rem;
-    }
+    footer p span { color: var(--cyan); }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
@@ -579,114 +803,176 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { padding: 5rem 2rem 3rem; }
-      .hero-left::before { font-size: 8rem; }
-      .hero-right { padding: 3rem 2rem; }
-      .section-header,
-      .about-grid,
-      .tl-item,
-      .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-      .tl-left { padding-right: 0; }
-      .section-num { font-size: 3rem; }
+      .nav-links, .nav-status { display: none; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .certs-grid { grid-template-columns: 1fr 1fr; }
-      .container { padding: 0 1.5rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
 
     @media (max-width: 500px) {
       .certs-grid { grid-template-columns: 1fr; }
+      .domain-grid { grid-template-columns: 1fr; }
+      .card-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
+  <!-- BACKGROUND -->
+  <div class="bg-wrap">
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="bg-orb orb3"></div>
+    <div class="bg-scan"></div>
+  </div>
+
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">Alex Baxendale</div>
+    <div class="nav-logo">alex<span>@</span>baxendale.me</div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#certifications">Certifications</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <div class="nav-status">
+      <div class="nav-dot"></div>
+      Available
+    </div>
   </nav>
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">Principal Solutions Architect</p>
-      <h1 class="hero-name">
-        Alex<br>
-        <strong>Baxendale</strong>
-      </h1>
-      <div class="hero-rule"></div>
-      <p class="hero-tagline">
-        Bridging executive vision with technical execution at Flutter Entertainment.
-      </p>
-      <p class="hero-location">Leeds, West Yorkshire · UK</p>
-    </div>
-
-    <div class="hero-right">
-      <p class="hero-intro-label">Currently</p>
-      <p class="hero-intro-text">
-        Shaping the technical roadmap for Flutter UK&amp;I's <em>largest transformation programmes</em>,
-        acting as Lead Architect across Account, iGaming and Sportsbook pillars.
-      </p>
-
-      <div class="hero-expertise">
-        <span class="tag">AWS</span>
-        <span class="tag">Cloud Architecture</span>
-        <span class="tag">Kafka / MSK</span>
-        <span class="tag">Terraform</span>
-        <span class="tag">Platform Engineering</span>
-        <span class="tag">Technical Governance</span>
-        <span class="tag">Security &amp; Compliance</span>
-        <span class="tag">ISO 27001</span>
-        <span class="tag">CCSP</span>
-        <span class="tag">Domain Modelling</span>
+    <div class="hero-inner">
+      <div>
+        <p class="hero-eyebrow">Principal Solutions Architect</p>
+        <h1 class="hero-name">
+          <span class="first">Alex</span><br>
+          <span class="last">Baxendale</span>
+        </h1>
+        <p class="hero-tagline">
+          Designing and delivering complex, high-scale technical solutions across Finance, Retail, Aviation, and Gaming. Bridging executive vision with technical execution at Flutter Entertainment's Office of the CTO.
+        </p>
+        <div class="hero-tags">
+          <span class="h-tag">AWS</span>
+          <span class="h-tag">Kafka / MSK</span>
+          <span class="h-tag">Terraform</span>
+          <span class="h-tag">Cloud Architecture</span>
+          <span class="h-tag">CCSP</span>
+          <span class="h-tag">ISO 27001</span>
+          <span class="h-tag">Platform Engineering</span>
+          <span class="h-tag">Domain Modelling</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#experience" class="btn btn-cyan">View Experience</a>
+          <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+        </div>
       </div>
 
-      <div class="hero-cta">
-        <a href="#experience" class="btn btn-dark">View Experience</a>
-        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      <!-- RIGHT CARD -->
+      <div class="hero-card glass">
+        <p class="card-label">// profile.json</p>
+
+        <div class="card-current">
+          <p class="card-current-label">▸ current_role</p>
+          <p class="card-current-val">Principal Solutions Architect</p>
+          <p class="card-current-sub">Flutter Entertainment · Office of the CTO</p>
+        </div>
+
+        <div class="card-stats">
+          <div class="stat">
+            <p class="stat-num">20+</p>
+            <p class="stat-label">Yrs Experience</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">4</p>
+            <p class="stat-label">Industry Sectors</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">9</p>
+            <p class="stat-label">Certifications</p>
+          </div>
+          <div class="stat">
+            <p class="stat-num">M+</p>
+            <p class="stat-label">Users Impacted</p>
+          </div>
+        </div>
+
+        <div class="card-certs">
+          <div class="cert-pill"><span class="cert-dot"></span> CCSP — Certified Cloud Security Professional</div>
+          <div class="cert-pill"><span class="cert-dot"></span> AWS Solutions Architect — Associate</div>
+          <div class="cert-pill"><span class="cert-dot"></span> HashiCorp Terraform Associate</div>
+          <div class="cert-pill"><span class="cert-dot"></span> BCS Enterprise &amp; Solution Architecture</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ABOUT -->
   <section id="about">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-num">01</div>
-        <div class="section-title-block">
-          <p class="section-label">About</p>
-          <h2 class="section-title">The <em>pragmatist</em><br>architect</h2>
-        </div>
-      </div>
+    <div>
+      <p class="s-label">About</p>
+      <h2 class="s-title">The pragmatist <em>architect</em></h2>
       <div class="about-grid">
         <div>
           <p class="about-pull">
-            A strategist who believes that <em>great architecture</em> lives at the intersection of business ambition and engineering reality.
+            A dedicated strategist who excels at <strong>bridging executive vision</strong> with ground-level engineering execution — at scale, in complex regulated environments.
           </p>
-          <div class="about-skills">
-            <span class="tag">Finance</span>
-            <span class="tag">Retail</span>
-            <span class="tag">Aviation</span>
-            <span class="tag">Gaming</span>
+          <div class="domain-grid">
+            <div class="domain-item">
+              <div class="domain-icon">⬡</div>
+              <div class="domain-name">Finance</div>
+              <div class="domain-sub">TSYS / Global Payments</div>
+            </div>
+            <div class="domain-item">
+              <div class="domain-icon">⬡</div>
+              <div class="domain-name">Retail</div>
+              <div class="domain-sub">ASDA · Morrisons</div>
+            </div>
+            <div class="domain-item">
+              <div class="domain-icon">⬡</div>
+              <div class="domain-name">Aviation</div>
+              <div class="domain-sub">Leeds Bradford Airport</div>
+            </div>
+            <div class="domain-item">
+              <div class="domain-icon">⬡</div>
+              <div class="domain-name">Gaming</div>
+              <div class="domain-sub">Flutter Entertainment</div>
+            </div>
           </div>
         </div>
         <div class="about-body">
-          <p>
-            A dedicated and strategic Principal Architect with extensive experience designing and delivering complex, high-scale technical solutions across Finance, Retail, Aviation, and Gaming.
-          </p>
-          <p>
-            Currently providing architectural direction for Flutter UK&amp;I's most significant transformation programmes, specialising in bridging the gap between executive vision and technical execution across multi-brand ecosystems — including PaddyPower, Betfair, PokerStars, and SkyBet.
-          </p>
-          <p>
-            A pragmatist at heart: passionate about leveraging modern technology stacks to de-risk large-scale migrations, reduce cost, and improve platform resilience in highly regulated environments.
-          </p>
+          <p>A dedicated and strategic Principal Architect with extensive experience designing and delivering complex, high-scale technical solutions across Finance, Retail, Aviation, and Gaming.</p>
+          <p>Currently providing architectural direction for Flutter UK&amp;I's most significant transformation programmes, specialising in bridging the gap between executive vision and technical execution across a multi-brand ecosystem.</p>
+          <p>A pragmatist at heart — passionate about leveraging modern technology stacks to de-risk large-scale, cost-effective, high-performance architecture while improving platform resilience and agility in heavily regulated environments.</p>
+
+          <div class="skill-bars">
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">AWS / Cloud Platform</span><span class="skill-pct">95%</span></div>
+              <div class="skill-track"><div class="skill-fill" style="--w:0.95"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Architecture Governance</span><span class="skill-pct">95%</span></div>
+              <div class="skill-track"><div class="skill-fill" style="--w:0.95"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Security &amp; Compliance</span><span class="skill-pct">90%</span></div>
+              <div class="skill-track"><div class="skill-fill" style="--w:0.90"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Platform Engineering</span><span class="skill-pct">90%</span></div>
+              <div class="skill-track"><div class="skill-fill" style="--w:0.90"></div></div>
+            </div>
+            <div class="skill-row">
+              <div class="skill-top"><span class="skill-name">Stakeholder Leadership</span><span class="skill-pct">85%</span></div>
+              <div class="skill-track"><div class="skill-fill" style="--w:0.85"></div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -694,276 +980,243 @@
 
   <!-- EXPERIENCE -->
   <section id="experience">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-num">02</div>
-        <div class="section-title-block">
-          <p class="section-label">Career</p>
-          <h2 class="section-title">Two decades<br><em>of delivery</em></h2>
+    <p class="s-label">Career</p>
+    <h2 class="s-title">Two decades of <em>delivery</em></h2>
+
+    <div class="tl">
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Apr 2025 → Present</p>
+          <p class="tl-co">Flutter Entertainment Ltd<br>Office of the CTO · Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Principal Solutions Architect</h3>
+          <p class="tl-desc">Shaping the technical roadmap for Flutter UKI's largest transformation projects, acting as Lead Architect for a business-critical re-platforming programme migrating core Account, iGaming and Sportsbook pillars to a modernised platform.</p>
+          <ul class="tl-bullets">
+            <li>Acting Lead Architect for re-platforming across Account, iGaming and Sportsbook pillars</li>
+            <li>Orchestrating full architectural lifecycle — discovery, domain modelling, design and phased migration — for millions of active customers</li>
+            <li>Driving technical governance, peer review, and mentorship across cross-functional architect team</li>
+            <li>Primary technical bridge between Office of the CTO and regional engineering leads</li>
+          </ul>
         </div>
       </div>
 
-      <div class="timeline">
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">April 2025 — Present</p>
-            <p class="tl-co">Flutter Entertainment Ltd<br>Office of the CTO · Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Principal Solutions Architect</h3>
-            <p class="tl-desc">Shaping the technical roadmap for Flutter UKI's largest transformation projects, acting as Lead Architect for a business-critical re-platforming programme migrating core Account, iGaming and Sportsbook pillars to a modernised platform.</p>
-            <ul class="tl-bullets">
-              <li>Acting Lead Architect for re-platforming across Account, iGaming and Sportsbook pillars</li>
-              <li>Orchestrating full architectural lifecycle — discovery, domain modelling, design and phased migration — for millions of active customers</li>
-              <li>Driving technical governance, peer review, and mentorship across cross-functional architect team</li>
-              <li>Primary technical bridge between Office of the CTO and regional engineering leads</li>
-            </ul>
-          </div>
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Dec 2023 → Apr 2025</p>
+          <p class="tl-co">PokerStars<br>Flutter Entertainment · Leeds</p>
         </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">December 2023 — April 2025</p>
-            <p class="tl-co">PokerStars (Flutter Entertainment)<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Senior Solutions Architect</h3>
-            <p class="tl-desc">Selected to join a newly formed Focus Tribe to deliver the highest-priority product for the Poker business, with direct responsibility for Data Streams, AWS Core Infrastructure, and Partner Connectivity.</p>
-            <ul class="tl-bullets">
-              <li>Defined event streaming architecture using Kafka (AWS MSK) and Apicurio Schema Registry with Protobuf schemas</li>
-              <li>Defined cross-programme AWS deployment and operational integration patterns</li>
-              <li>Produced secure partner connectivity patterns for CloudWAN and on-premises integrations</li>
-            </ul>
-          </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Senior Solutions Architect</h3>
+          <p class="tl-desc">Selected to join a newly formed Focus Tribe to deliver the highest-priority product for the Poker business, with direct responsibility for Data Streams, AWS Core Infrastructure, and Partner Connectivity.</p>
+          <ul class="tl-bullets">
+            <li>Defined event streaming architecture using Kafka (AWS MSK) and Apicurio Schema Registry with Protobuf schemas</li>
+            <li>Defined cross-programme AWS deployment and operational integration patterns</li>
+            <li>Produced secure partner connectivity patterns for CloudWAN and on-premises integrations</li>
+          </ul>
         </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">April 2023 — December 2023</p>
-            <p class="tl-co">PokerStars Sports (Flutter)<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Senior Platform Architect</h3>
-            <p class="tl-desc">Promoted within the Sports Tribe with broader scope across multiple Architecture governance boards within Flutter International.</p>
-            <ul class="tl-bullets">
-              <li>Led AWS account migration into new AWS Organisation including SSO, SOC, and network considerations</li>
-              <li>Designed tactical Sportsbook regulator integration across Datacentre and AWS boundaries</li>
-              <li>ISO 27001 audit across all environments, identifying gaps and proposing risk-based solutions</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">January 2021 — April 2023</p>
-            <p class="tl-co">PokerStars Sports (Flutter)<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Platform Architect</h3>
-            <p class="tl-desc">Responsible for cloud platform capability design on the next-generation PokerStars Sports platform, collaborating across Flutter brands including SkyBet, Betfair, PaddyPower, and Fanduel.</p>
-            <ul class="tl-bullets">
-              <li>Designed overall AWS network connectivity using Transit Gateway, VPC, and subnet patterns</li>
-              <li>Implemented AWS Firewall Manager, Inspector, and Tenable for security compliance</li>
-              <li>Led implementation of 2x AWS Outpost Racks within Flutter's private data centres via Direct Connect</li>
-              <li>Led successful planning and execution of first customer migrations onto the new sportsbook platform</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">July 2020 — January 2021</p>
-            <p class="tl-co">Morrisons Supermarkets plc<br>Bradford</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Cloud Platform Engineer</h3>
-            <p class="tl-desc">Founding member of the Cloud Operations team, responsible for all public cloud environments at platform level across AWS.</p>
-            <ul class="tl-bullets">
-              <li>Implemented cloud governance guardrails using AWS Config and Organizations SCP policies</li>
-              <li>Deployed platform-level services via Infrastructure as Code with Terraform</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">March 2020 — July 2020</p>
-            <p class="tl-co">Bax Tech Ltd (Contract)<br>@ Morrisons, Bradford</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">VMware HCI Specialist</h3>
-            <p class="tl-desc">Led the technical implementation of a large-scale Data Centre platform refresh based on VMware Cloud Foundation, including DellEMC VxRail, NSX-T, HCX, vROPs, vSAN and vLCM.</p>
-            <ul class="tl-bullets">
-              <li>Led commissioning of new SDDC platform including Stretched vSAN</li>
-              <li>Defined multi-phase migration strategy covering discovery, placement, wave planning and testing</li>
-              <li>Deployed Gemalto KMS cluster with Thales for vSAN encryption</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">April 2019 — March 2020</p>
-            <p class="tl-co">Bax Tech Ltd (Contract)<br>@ TSYS / Global Payments, Knaresborough</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Lead Platform Engineer</h3>
-            <ul class="tl-bullets">
-              <li>Rapid design and build of vSphere ESXi 6.7 clusters on Cisco UCS hardware</li>
-              <li>Windows Server refresh migrating services from unsupported operating systems</li>
-              <li>SAN storage migration including Cisco UCS blade infrastructure and LUN zone configuration</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">September 2016 — April 2019</p>
-            <p class="tl-co">ASDA Stores Ltd<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Technical Expert — Infrastructure Delivery</h3>
-            <p class="tl-desc">Senior member of Core Infrastructure delivery team and sole Cloud SME, with multiple trips to Walmart Cloud teams in the USA.</p>
-            <ul class="tl-bullets">
-              <li>Sole Cloud SME — responsible for Azure capacity forecasting and all ASDA cloud deployments</li>
-              <li>Designed and built greenfield data centre capabilities across two co-lo environments</li>
-              <li>Key contributor to data centre migration programme alongside IBM</li>
-              <li>Deployed Azure IaaS/PaaS stack including WebApps, WAF, VM Scale Sets, and PaaS databases</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">November 2014 — September 2016</p>
-            <p class="tl-co">ASDA Stores Ltd<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Technical Expert — Infrastructure Operations</h3>
-            <ul class="tl-bullets">
-              <li>Lead engineer for server and storage operational support across data centres, distribution centres, and stores</li>
-              <li>Implemented PRTG, vROps, and PowerShell monitoring for proactive environment management</li>
-              <li>Deputised for Operations Technical Team Manager, reporting to Senior Director level</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="tl-item">
-          <div class="tl-left">
-            <p class="tl-period">September 2008 — November 2014</p>
-            <p class="tl-co">Leeds Bradford International Airport<br>Leeds</p>
-          </div>
-          <div class="tl-right">
-            <h3 class="tl-role">Senior IT Systems Analyst (Technical Lead)</h3>
-            <p class="tl-desc">Technical lead for all IT support escalations and project deliverables across a wide range of critical airport systems requiring 24/7 support.</p>
-            <ul class="tl-bullets">
-              <li>Owned and developed the entire airport network infrastructure (Nortel/Avaya, Fortigate, Meru WiFi)</li>
-              <li>Led VMware vSphere and NetApp FAS storage environment refresh with DR via VMware SRM</li>
-              <li>Delivered AODB system refresh on Lockheed Martin platform — critical to all airport operations</li>
-              <li>Enforced PCI DSS compliance across the estate</li>
-            </ul>
-          </div>
-        </div>
-
       </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Apr 2023 → Dec 2023</p>
+          <p class="tl-co">PokerStars Sports<br>Flutter Entertainment · Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Senior Platform Architect</h3>
+          <p class="tl-desc">Promoted within the Sports Tribe with broader scope across multiple Architecture governance boards within Flutter International.</p>
+          <ul class="tl-bullets">
+            <li>Led AWS account migration into new AWS Organisation including SSO, SOC, and network considerations</li>
+            <li>Designed tactical Sportsbook regulator integration across Datacentre and AWS boundaries</li>
+            <li>ISO 27001 audit across all environments, identifying gaps and proposing risk-based solutions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Jan 2021 → Apr 2023</p>
+          <p class="tl-co">PokerStars Sports<br>Flutter Entertainment · Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Platform Architect</h3>
+          <p class="tl-desc">Responsible for cloud platform capability design on the next-generation PokerStars Sports platform, collaborating across Flutter brands including SkyBet, Betfair, PaddyPower, and Fanduel.</p>
+          <ul class="tl-bullets">
+            <li>Designed overall AWS network connectivity using Transit Gateway, VPC, and subnet patterns</li>
+            <li>Implemented AWS Firewall Manager, Inspector, and Tenable for security compliance</li>
+            <li>Led implementation of 2x AWS Outpost Racks within Flutter's private data centres via Direct Connect</li>
+            <li>Led first customer migrations onto the new sportsbook platform across ~100 engineers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Jul 2020 → Jan 2021</p>
+          <p class="tl-co">Morrisons Supermarkets plc<br>Bradford</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Cloud Platform Engineer</h3>
+          <p class="tl-desc">Founding member of the Cloud Operations team, responsible for all public cloud environments at platform level across AWS.</p>
+          <ul class="tl-bullets">
+            <li>Implemented cloud governance guardrails using AWS Config and Organizations SCP policies</li>
+            <li>Deployed platform-level services via Infrastructure as Code with Terraform</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Mar 2020 → Jul 2020</p>
+          <p class="tl-co">Bax Tech Ltd (Contract)<br>@ Morrisons, Bradford</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">VMware HCI Specialist</h3>
+          <p class="tl-desc">Led the technical implementation of a large-scale Data Centre platform refresh based on VMware Cloud Foundation, including DellEMC VxRail, NSX-T, HCX, vROPs and vSAN.</p>
+          <ul class="tl-bullets">
+            <li>Led commissioning of full SDDC stack including Stretched vSAN on DellEMC VxRail</li>
+            <li>Defined multi-phase migration strategy covering discovery, placement, wave planning and testing</li>
+            <li>Deployed Gemalto KMS cluster with Thales for vSAN encryption</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Apr 2019 → Mar 2020</p>
+          <p class="tl-co">Bax Tech Ltd (Contract)<br>@ TSYS / Global Payments, Knaresborough</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Lead Platform Engineer</h3>
+          <ul class="tl-bullets">
+            <li>Rapid design and build of vSphere ESXi 6.7 clusters on Cisco UCS hardware</li>
+            <li>Windows Server refresh migrating services from unsupported operating systems</li>
+            <li>SAN storage migration including Cisco UCS blade infrastructure and LUN zone configuration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Sep 2016 → Apr 2019</p>
+          <p class="tl-co">ASDA Stores Ltd<br>Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Technical Expert — Infrastructure Delivery</h3>
+          <p class="tl-desc">Sole Cloud SME and senior member of Core Infrastructure delivery team, with multiple visits to Walmart Cloud teams in the USA.</p>
+          <ul class="tl-bullets">
+            <li>Sole Cloud SME — responsible for Azure capacity forecasting and all ASDA cloud deployments</li>
+            <li>Designed and built greenfield data centre capabilities across two co-lo environments</li>
+            <li>Key contributor to data centre migration programme alongside IBM</li>
+            <li>Deployed Azure IaaS/PaaS stack including WebApps, WAF, VM Scale Sets, and PaaS databases</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Nov 2014 → Sep 2016</p>
+          <p class="tl-co">ASDA Stores Ltd<br>Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Technical Expert — Infrastructure Operations</h3>
+          <ul class="tl-bullets">
+            <li>Lead engineer for server and storage operational support across data centres, distribution centres, and stores</li>
+            <li>Implemented PRTG, vROps, and PowerShell monitoring for proactive environment management</li>
+            <li>Deputised for Operations Technical Team Manager, reporting to Senior Director level</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-meta">
+          <p class="tl-period">Sep 2008 → Nov 2014</p>
+          <p class="tl-co">Leeds Bradford International Airport<br>Leeds</p>
+        </div>
+        <div class="tl-content">
+          <h3 class="tl-role">Senior IT Systems Analyst (Technical Lead)</h3>
+          <p class="tl-desc">Technical lead for all IT support escalations and project deliverables across critical airport systems requiring 24/7 support cover.</p>
+          <ul class="tl-bullets">
+            <li>Owned and developed the entire airport network infrastructure (Nortel/Avaya, Fortigate, Meru WiFi)</li>
+            <li>Led VMware vSphere and NetApp FAS storage environment refresh with DR via VMware SRM</li>
+            <li>Delivered AODB system refresh on Lockheed Martin platform — critical to all airport operations</li>
+            <li>Enforced PCI DSS compliance standards across the estate</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- CERTIFICATIONS -->
   <section id="certifications">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-num">03</div>
-        <div class="section-title-block">
-          <p class="section-label">Qualifications</p>
-          <h2 class="section-title">Certifications<br>&amp; <em>credentials</em></h2>
-        </div>
+    <p class="s-label">Qualifications</p>
+    <h2 class="s-title">Certifications &amp; <em>credentials</em></h2>
+    <div class="certs-grid">
+      <div class="cert">
+        <p class="cert-yr">2022</p>
+        <p class="cert-name">(ISC²) CCSP — Certified Cloud Security Professional</p>
       </div>
-      <div class="certs-grid">
-        <div class="cert">
-          <p class="cert-yr">2022</p>
-          <p class="cert-name">(ISC²) CCSP — Certified Cloud Security Professional</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2021</p>
-          <p class="cert-name">BCS Practitioner Certificate in Enterprise &amp; Solution Architecture</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2020</p>
-          <p class="cert-name">AWS Certified Solutions Architect — Associate (SAA-C02)</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2020</p>
-          <p class="cert-name">HashiCorp Certified Terraform Associate</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2018</p>
-          <p class="cert-name">Microsoft Azure Infrastructure Solutions</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2016</p>
-          <p class="cert-name">VMware VCP 5</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2010</p>
-          <p class="cert-name">Microsoft MCSE</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2009</p>
-          <p class="cert-name">Microsoft MCSA</p>
-        </div>
-        <div class="cert">
-          <p class="cert-yr">2009</p>
-          <p class="cert-name">Cisco CCNA</p>
-        </div>
+      <div class="cert">
+        <p class="cert-yr">2021</p>
+        <p class="cert-name">BCS Practitioner Certificate in Enterprise &amp; Solution Architecture</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2020</p>
+        <p class="cert-name">AWS Certified Solutions Architect — Associate (SAA-C02)</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2020</p>
+        <p class="cert-name">HashiCorp Certified Terraform Associate</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2018</p>
+        <p class="cert-name">Microsoft Azure Infrastructure Solutions</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2016</p>
+        <p class="cert-name">VMware VCP 5</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2010</p>
+        <p class="cert-name">Microsoft MCSE</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2009</p>
+        <p class="cert-name">Microsoft MCSA</p>
+      </div>
+      <div class="cert">
+        <p class="cert-yr">2009</p>
+        <p class="cert-name">Cisco CCNA</p>
       </div>
     </div>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-num">04</div>
-        <div class="section-title-block">
-          <p class="section-label">Contact</p>
-          <h2 class="section-title">Let's work<br><em>together</em></h2>
-        </div>
+    <p class="s-label">Contact</p>
+    <h2 class="s-title">Let's <em>connect</em></h2>
+    <div class="contact-layout">
+      <div>
+        <h2 class="contact-headline">Open to<br><em>interesting</em><br>conversations.</h2>
+        <p class="contact-sub">// Available for advisory, consultancy,<br>// or senior architecture roles.<br>// Based in Ilkley, West Yorkshire.</p>
       </div>
-      <div class="contact-grid">
-        <div>
-          <h2 class="contact-headline">Open to<br><em>interesting</em><br>conversations.</h2>
-          <p class="contact-sub">Available for advisory, consultancy, or senior architecture roles. Based in Ilkley, West Yorkshire.</p>
-        </div>
-        <div class="contact-items">
-          <a href="mailto:alex@baxendale.me" class="contact-item">
-            <div>
-              <span class="ci-label">Email</span>
-              <span class="ci-value">alex@baxendale.me</span>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="tel:07989873467" class="contact-item">
-            <div>
-              <span class="ci-label">Phone</span>
-              <span class="ci-value">07989 873 467</span>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="https://uk.linkedin.com/in/abaxendale" target="_blank" class="contact-item">
-            <div>
-              <span class="ci-label">LinkedIn</span>
-              <span class="ci-value">linkedin.com/in/abaxendale</span>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <div class="contact-item" style="cursor:default">
-            <div>
-              <span class="ci-label">Location</span>
-              <span class="ci-value">Ilkley, West Yorkshire</span>
-            </div>
-          </div>
+      <div class="contact-items">
+        <a href="mailto:alex@baxendale.me" class="ci glass">
+          <div><span class="ci-lbl">▸ email</span><span class="ci-val">alex@baxendale.me</span></div>
+          <span class="ci-arr">→</span>
+        </a>
+        <a href="tel:07989873467" class="ci glass">
+          <div><span class="ci-lbl">▸ phone</span><span class="ci-val">07989 873 467</span></div>
+          <span class="ci-arr">→</span>
+        </a>
+        <a href="https://uk.linkedin.com/in/abaxendale" target="_blank" class="ci glass">
+          <div><span class="ci-lbl">▸ linkedin</span><span class="ci-val">linkedin.com/in/abaxendale</span></div>
+          <span class="ci-arr">→</span>
+        </a>
+        <div class="ci glass" style="cursor:default">
+          <div><span class="ci-lbl">▸ location</span><span class="ci-val">Ilkley, West Yorkshire, UK</span></div>
         </div>
       </div>
     </div>
@@ -971,33 +1224,50 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 Alex Baxendale</p>
-    <span>Principal Solutions Architect</span>
-    <p>Flutter Entertainment · Office of the CTO</p>
+    <p>© 2026 <span>Alex Baxendale</span></p>
+    <p>Principal Solutions Architect · Flutter Entertainment</p>
+    <p>baxendale<span>.me</span></p>
   </footer>
 
   <script>
+    // Timeline scroll reveal
     const items = document.querySelectorAll('.tl-item');
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          setTimeout(() => e.target.classList.add('visible'), i * 70);
           obs.unobserve(e.target);
         }
       });
     }, { threshold: 0.08 });
     items.forEach(el => obs.observe(el));
 
+    // Skill bar animation
+    const bars = document.querySelectorAll('.skill-fill');
+    const barObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('animate');
+          e.target.style.width = (parseFloat(e.target.style.getPropertyValue('--w')) * 100) + '%';
+          barObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    bars.forEach(b => {
+      b.style.width = '0%';
+      barObs.observe(b);
+    });
+
+    // Nav active state
     const sections = document.querySelectorAll('section[id]');
     const links = document.querySelectorAll('.nav-links a');
     window.addEventListener('scroll', () => {
       let cur = '';
       sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
       links.forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--espresso)' : '';
+        a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--cyan)' : '';
       });
     });
   </script>
-
 </body>
 </html>
